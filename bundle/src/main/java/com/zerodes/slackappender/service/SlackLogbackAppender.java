@@ -38,11 +38,11 @@ public class SlackLogbackAppender extends AppenderBase<ILoggingEvent> {
 	private static final Map<Level, String> levelEmojiMap = new HashMap<Level, String>();
 	private static final String USERNAME = "sling-logback-appender";
 
-	@Property(unbounded = PropertyUnbounded.ARRAY, description = "The loggers to attach this appender to.",
+	@Property(unbounded = PropertyUnbounded.ARRAY, description = "Loggers to attach this appender to.",
 			value = { "com.day.cq" })
 	private static final String CONFIG_LOGGERS = "loggers";
 
-	@Property(description = "The minimum logging level of events to send to Slack.", options = {
+	@Property(description = "Minimum logging level of events to send to Slack.", options = {
 			@PropertyOption(name = "TRACE", value = "TRACE"),
 			@PropertyOption(name = "DEBUG", value = "DEBUG"),
 			@PropertyOption(name = "INFO", value = "INFO"),
@@ -50,16 +50,21 @@ public class SlackLogbackAppender extends AppenderBase<ILoggingEvent> {
 			@PropertyOption(name = "ERROR", value = "ERROR") })
 	private static final String CONFIG_MIN_LEVEL = "min.level";
 
-	@Property(description = "The amount of detail to include in stack traces", options = {
+	@Property(description = "Level of detail to include in stack traces.", options = {
 			@PropertyOption(name = "CAUSED_BY", value = "CAUSED_BY"),
 			@PropertyOption(name = "FULL", value = "FULL") })
 	private static final String CONFIG_STACK_TRACE_TYPE = "stack.trace.type";
+
+	@Property(description = "Slack webhook URL.")
+	private static final String CONFIG_WEBHOOK_URL = "webhook.url";
 
 	private Client jaxrsClient;
 
 	private String minLevel;
 
 	private String stackTraceType;
+
+	private String webhookUrl;
 
 	{
 		levelEmojiMap.put(Level.ERROR, ":heavy_exclamation_mark:");
@@ -80,6 +85,7 @@ public class SlackLogbackAppender extends AppenderBase<ILoggingEvent> {
 		final Dictionary<?, ?> props = ctx.getProperties();
 		minLevel = PropertiesUtil.toString(props.get(CONFIG_MIN_LEVEL), "WARN");
 		stackTraceType = PropertiesUtil.toString(props.get(CONFIG_STACK_TRACE_TYPE), "CAUSED_BY");
+		webhookUrl = PropertiesUtil.toString(props.get(CONFIG_WEBHOOK_URL), "");
 	}
 
 	@Override
@@ -110,7 +116,7 @@ public class SlackLogbackAppender extends AppenderBase<ILoggingEvent> {
 					+ iLoggingEvent.getLevel().toString() + ": "
 					+ iLoggingEvent.getFormattedMessage() + "\n"
 					+ convertThrowableToStackTraceString(iLoggingEvent));
-			jaxrsClient.target("https://hooks.slack.com/services/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")
+			jaxrsClient.target(webhookUrl)
 					.request()
 					.post(Entity.entity(slackWebhookEntity, MediaType.APPLICATION_JSON_TYPE));
 		}
