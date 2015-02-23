@@ -1,4 +1,4 @@
-package com.zerodes.slackappender;
+package com.zerodes.slackappender.jersey;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

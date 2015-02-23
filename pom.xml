@@ -26,6 +26,7 @@
 		<com.fasterxml.jackson.version>2.4.2</com.fasterxml.jackson.version>
 		<org.glassfish.jersey.version>2.12</org.glassfish.jersey.version>
 		<org.slf4j.version>1.7.6</org.slf4j.version>
+		<sling.event.version>3.1.2</sling.event.version>
 	</properties>
 
 	<build>
@@ -134,6 +135,12 @@
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>1.1.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.event</artifactId>
+				<version>${sling.event.version}</version>
 				<scope>provided</scope>
 			</dependency>
 

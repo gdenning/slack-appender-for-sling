@@ -43,7 +43,6 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-Activator>com.zerodes.slackappender.SlackAppenderActivator</Bundle-Activator>
 						<Bundle-SymbolicName>com.zerodes.slackappender</Bundle-SymbolicName>
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
@@ -102,6 +101,10 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
 			<artifactId>jackson-jaxrs-base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.event</artifactId>
 		</dependency>
 	</dependencies>
 </project>
